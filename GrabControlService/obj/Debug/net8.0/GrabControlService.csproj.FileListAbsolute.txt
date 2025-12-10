@@ -51,3 +51,4 @@ D:\Work\AOIPlatform\GrabControlService\obj\Debug\net8.0\GrabControlService.pdb
 D:\Work\AOIPlatform\GrabControlService\obj\Debug\net8.0\GrabControlService.genruntimeconfig.cache
 D:\Work\AOIPlatform\GrabControlService\obj\Debug\net8.0\ref\GrabControlService.dll
 D:\Work\AOIPlatform\GrabControlService\bin\Debug\net8.0\RabbitMQ.Client.dll
+D:\Work\AOIPlatform\GrabControlService\obj\Debug\net8.0\GrabControlService.sourcelink.json

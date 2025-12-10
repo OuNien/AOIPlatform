@@ -1,6 +1,7 @@
 using AOI.Common.Domain;
 using AOI.Common.Messages;
 using AOI.Infrastructure.Messaging;
+using Microsoft.Extensions.Options;
 
 namespace GrabControlService
 {
@@ -8,27 +9,25 @@ namespace GrabControlService
     {
         private readonly ILogger<Worker> _logger;
         private readonly IMessageBus _messageBus;
+        private readonly int _groupId;
+        private readonly int _workerCount;
 
-        public Worker(ILogger<Worker> logger, IMessageBus messageBus)
+        public Worker(
+            ILogger<Worker> logger,
+            IMessageBus messageBus,
+            IOptions<GrabControlOptions> options)
         {
             _logger = logger;
             _messageBus = messageBus;
 
-            // 訂閱 Panel 類別的事件
-            if (messageBus is RabbitMqMessageBus inMemory)
-            {
-                //_messageBus.Subscribe<Panel>(HandlePanelScheduledAsync);
-                _messageBus.SubscribeAsync<Panel>("aoi.grabcontrol.1", HandlePanelScheduledAsync);
+            _groupId = options.Value.GroupId;
+            _workerCount = options.Value.WorkerCount;
 
-            }
-        }
+            string subscribeKey = $"aoi.grabcontrol.{_groupId}";
 
-        private async Task OnMessageReceived(object msg)
-        {
-            if (msg is Panel panel)
-            {
-                await HandlePanelScheduledAsync(panel);
-            }
+            _logger.LogInformation("[GrabControl-{Group}] 訂閱 {Key}", _groupId, subscribeKey);
+
+            _messageBus.SubscribeAsync<Panel>(subscribeKey, HandlePanelScheduledAsync);
         }
 
         /// <summary>
@@ -37,8 +36,10 @@ namespace GrabControlService
         private async Task HandlePanelScheduledAsync(Panel panel)
         {
             _logger.LogInformation(
-                "[GrabControl] 收到 Panel 排程事件 PanelId={PanelId}, FieldCount={Count}",
-                panel.PanelId, panel.FieldCount);
+                "[GrabControl-{Group}] 收到 Panel 排程 PanelId={PanelId}, FieldCount={Count}",
+                _groupId, panel.PanelId, panel.FieldCount);
+
+            int nextWorker = 1;
 
             for (int i = 1; i <= panel.FieldCount; i++)
             {
@@ -49,17 +50,26 @@ namespace GrabControlService
                     FieldId = fieldId
                 };
 
-                _logger.LogInformation("[GrabControl] 發出取像命令 → Panel={Panel} Field={Field}",
-                    order.PanelId, order.FieldId);
+                // 決定要送給哪一台 GrabWorker
+                string routingKey = $"aoi.grabworker.{_groupId}.{nextWorker}";
 
-                await _messageBus.PublishAsync(order);
+                _logger.LogInformation(
+                    "[GrabControl-{Group}] 發出取像命令 → Panel={Panel} Field={Field} → {RoutingKey}",
+                    _groupId, order.PanelId, order.FieldId, routingKey);
+
+                await _messageBus.PublishAsync(order, routingKey);
+
+                // 輪詢下一個 worker
+                nextWorker++;
+                if (nextWorker > _workerCount)
+                    nextWorker = 1;
             }
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("[GrabControl] 啟動完成，等待排程事件...");
-            return Task.CompletedTask; // GrabControl 不需要 loop，由事件觸發
+            _logger.LogInformation("[GrabControl-{Group}] 啟動完成，等待排程事件...", _groupId);
+            return Task.CompletedTask;
         }
     }
 }

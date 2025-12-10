@@ -1,5 +1,6 @@
 using AOI.Common.Messages;
 using AOI.Infrastructure.Messaging;
+using Microsoft.Extensions.Options;
 
 namespace MappingService
 {
@@ -8,43 +9,39 @@ namespace MappingService
         private readonly ILogger<Worker> _logger;
         private readonly IMessageBus _messageBus;
         private readonly Random _random = new();
-        private readonly string _stationName;
 
-        public Worker(ILogger<Worker> logger, IMessageBus messageBus)
+        private readonly int _groupId;
+        private readonly string _subscribeKey;
+
+        public Worker(
+            ILogger<Worker> logger,
+            IMessageBus messageBus,
+            IOptions<MappingOptions> options)
         {
             _logger = logger;
             _messageBus = messageBus;
-            _stationName = "Mapping-1";   // 之後可改成從設定檔讀
 
-            if (messageBus is RabbitMqMessageBus inMemory)
-            {
-                //_messageBus.Subscribe<ImageCaptured>(HandleImageCapturedAsync);
-                _messageBus.Subscribe<ImageCaptured>("aoi.mapping.1", HandleImageCapturedAsync);
+            _groupId = options.Value.GroupId;
+            _subscribeKey = $"aoi.mapping.{_groupId}";
 
-            }
-        }
+            _logger.LogInformation(
+                "[Mapping-{Group}] 訂閱 {Key}",
+                _groupId, _subscribeKey);
 
-        private async Task OnMessageAsync(object msg)
-        {
-            // 只處理 ImageCaptured，其它訊息先忽略
-            if (msg is not ImageCaptured captured)
-                return;
-
-            await HandleImageCapturedAsync(captured);
+            _messageBus.SubscribeAsync<ImageCaptured>(_subscribeKey, HandleImageCapturedAsync);
         }
 
         private async Task HandleImageCapturedAsync(ImageCaptured captured)
         {
             _logger.LogInformation(
-                "[{Station}] 收到影像 ImageId={ImageId}, Panel={Panel}, Field={Field}",
-                _stationName, captured.ImageId, captured.PanelId, captured.FieldId);
+                "[Mapping-{Group}] 收到影像 Panel={Panel}, Field={Field}, Image={Image}",
+                _groupId, captured.PanelId, captured.FieldId, captured.ImageId);
 
-            // 模擬辨識運算時間
+            // 模擬辨識/Recipe對應
             await Task.Delay(_random.Next(100, 300));
 
-            // 簡單決定 Recipe & Step
-            var recipeId = "RCP-DEFAULT";     // 之後可以真正查 DB / 設定站輸出的資料
-            var step = _random.Next(1, 4);    // 先隨機 1~3 當作行程
+            string recipeId = "RCP-DEFAULT";
+            int step = _random.Next(1, 4);
 
             var mapped = new ImageMapped
             {
@@ -56,16 +53,26 @@ namespace MappingService
             };
 
             _logger.LogInformation(
-                "[{Station}] 完成 mapping ImageId={ImageId} → Recipe={Recipe}, Step={Step}",
-                _stationName, mapped.ImageId, mapped.RecipeId, mapped.Step);
+                "[Mapping-{Group}] 完成 mapping Panel={Panel} Field={Field} → Recipe={Recipe} Step={Step}",
+                _groupId, mapped.PanelId, mapped.FieldId, mapped.RecipeId, mapped.Step);
 
-            await _messageBus.PublishAsync(mapped);
+            // Publish to InspectControl of same group
+            string routingKey = $"aoi.inspectcontrol.{_groupId}";
+
+            await _messageBus.PublishAsync(mapped, routingKey);
+
+            _logger.LogInformation(
+                "[Mapping-{Group}] 已送出 InspectOrder → {RoutingKey}",
+                _groupId, routingKey);
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("[{Station}] MappingService 啟動，等待影像…", _stationName);
-            return Task.CompletedTask; // 全部靠事件觸發
+            _logger.LogInformation(
+                "[Mapping-{Group}] MappingService 啟動完成，等待影像…",
+                _groupId);
+
+            return Task.CompletedTask;
         }
     }
 }

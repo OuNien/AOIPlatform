@@ -1,6 +1,7 @@
 using AOI.Common.Domain;
 using AOI.Common.Messages;
 using AOI.Infrastructure.Messaging;
+using Microsoft.Extensions.Options;
 
 namespace SchedulerService
 {
@@ -8,34 +9,34 @@ namespace SchedulerService
     {
         private readonly ILogger<Worker> _logger;
         private readonly IMessageBus _messageBus;
+        private readonly int _groupId;
 
-        public Worker(ILogger<Worker> logger, IMessageBus messageBus)
+        private readonly string _subscribeKey;
+
+        public Worker(
+            ILogger<Worker> logger,
+            IMessageBus messageBus,
+            IOptions<SchedulerOptions> options)
         {
             _logger = logger;
             _messageBus = messageBus;
 
-            // 讓 Scheduler 可以收到 UiStartPanel
-            if (messageBus is RabbitMqMessageBus inMemory)
-            {
-                //_messageBus.Subscribe<UiStartPanel>(HandleUiStartPanelAsync);
-                _messageBus.Subscribe<UiStartPanel>("aoi.scheduler.1", HandleUiStartPanelAsync);
+            _groupId = options.Value.GroupId;
 
-            }
-        }
+            // UI → Scheduler routing key
+            _subscribeKey = $"aoi.scheduler.{_groupId}";
 
-        private async Task OnMessageAsync(object msg)
-        {
-            if (msg is UiStartPanel uiStart)
-            {
-                await HandleUiStartPanelAsync(uiStart);
-            }
+            _logger.LogInformation("[Scheduler-{Group}] 訂閱 {Key}",
+                _groupId, _subscribeKey);
+
+            _messageBus.SubscribeAsync<UiStartPanel>(_subscribeKey, HandleUiStartPanelAsync);
         }
 
         private async Task HandleUiStartPanelAsync(UiStartPanel uiStart)
         {
             _logger.LogInformation(
-                "[Scheduler] 收到 UI 開始指令 PanelId={PanelId}, LotId={LotId}, FieldCount={FieldCount}, Recipe={Recipe}",
-                uiStart.PanelId, uiStart.LotId, uiStart.FieldCount, uiStart.RecipeId);
+                "[Scheduler-{Group}] 收到 UI 開始 PanelId={PanelId}, LotId={LotId}, FieldCount={FieldCount}, Recipe={Recipe}",
+                _groupId, uiStart.PanelId, uiStart.LotId, uiStart.FieldCount, uiStart.RecipeId);
 
             var panel = new Panel
             {
@@ -45,15 +46,18 @@ namespace SchedulerService
                 RecipeId = uiStart.RecipeId
             };
 
-            _logger.LogInformation("[Scheduler] 建立排程 Panel={PanelId}", panel.PanelId);
+            _logger.LogInformation("[Scheduler-{Group}] 發送 Panel 排程 → {RoutingKey}",
+                _groupId, $"aoi.grabcontrol.{_groupId}");
 
-            await _messageBus.PublishAsync(panel);
+            await _messageBus.PublishAsync(panel, $"aoi.grabcontrol.{_groupId}");
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("[Scheduler] SchedulerService 啟動，等待 UiStartPanel 指令…");
-            // 不再自動每 5 秒亂生 panel，全部由 UI 控制
+            _logger.LogInformation(
+                "[Scheduler-{Group}] 啟動完成，等待 UI 指令…",
+                _groupId);
+
             return Task.CompletedTask;
         }
     }

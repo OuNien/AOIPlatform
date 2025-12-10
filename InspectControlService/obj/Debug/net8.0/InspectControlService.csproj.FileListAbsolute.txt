@@ -51,3 +51,4 @@ D:\Work\AOIPlatform\InspectControlService\obj\Debug\net8.0\InspectControlService
 D:\Work\AOIPlatform\InspectControlService\obj\Debug\net8.0\InspectControlService.genruntimeconfig.cache
 D:\Work\AOIPlatform\InspectControlService\obj\Debug\net8.0\ref\InspectControlService.dll
 D:\Work\AOIPlatform\InspectControlService\bin\Debug\net8.0\RabbitMQ.Client.dll
+D:\Work\AOIPlatform\InspectControlService\obj\Debug\net8.0\InspectControlService.sourcelink.json

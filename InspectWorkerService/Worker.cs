@@ -1,5 +1,6 @@
 using AOI.Common.Messages;
 using AOI.Infrastructure.Messaging;
+using Microsoft.Extensions.Options;
 
 namespace InspectWorkerService
 {
@@ -8,39 +9,39 @@ namespace InspectWorkerService
         private readonly ILogger<Worker> _logger;
         private readonly IMessageBus _messageBus;
         private readonly Random _random = new();
-        private readonly string _stationName;
 
-        public Worker(ILogger<Worker> logger, IMessageBus messageBus)
+        private readonly int _groupId;
+        private readonly int _workerId;
+        private readonly string _subscribeKey;
+
+        public Worker(
+            ILogger<Worker> logger,
+            IMessageBus messageBus,
+            IOptions<InspectWorkerOptions> options)
         {
             _logger = logger;
             _messageBus = messageBus;
 
-            // 未來可以從設定檔讀，如 "Inspect-1"
-            _stationName = "Inspect-1";
+            _groupId = options.Value.GroupId;
+            _workerId = options.Value.WorkerId;
 
-            if (messageBus is RabbitMqMessageBus mb)
-            {
-                //mb.Subscribe<InspectOrder>(HandleInspectOrderAsync);
-                _messageBus.Subscribe<InspectOrder>($"aoi.inspectworker.{_stationName}", HandleInspectOrderAsync);
+            // 訂閱 GPU Worker 專屬的 Queue
+            _subscribeKey = $"aoi.inspectworker.{_groupId}.{_workerId}";
 
-            }
-        }
+            _logger.LogInformation(
+                "[InspectWorker G{G}-W{W}] 訂閱 {Key}",
+                _groupId, _workerId, _subscribeKey);
 
-        private async Task OnMessageAsync(object msg)
-        {
-            if (msg is not InspectOrder order)
-                return;
-
-            await HandleInspectOrderAsync(order);
+            _messageBus.SubscribeAsync<InspectOrder>(_subscribeKey, HandleInspectOrderAsync);
         }
 
         private async Task HandleInspectOrderAsync(InspectOrder order)
         {
             _logger.LogInformation(
-                "[{Station}] 收到 InspectOrder Panel={Panel}, Field={Field}, Image={Image}, Step={Step}",
-                _stationName, order.PanelId, order.FieldId, order.ImageId, order.Step);
+                "[InspectWorker G{G}-W{W}] 收到 InspectOrder Panel={Panel}, Field={Field}, Image={Image}, Step={Step}",
+                _groupId, _workerId, order.PanelId, order.FieldId, order.ImageId, order.Step);
 
-            // 模擬 heavy compute（AI / Pattern Match 等）
+            // 模擬 GPU heavy compute
             await Task.Delay(_random.Next(200, 600));
 
             var defectCount = _random.Next(0, 3);
@@ -60,15 +61,24 @@ namespace InspectWorkerService
             };
 
             _logger.LogInformation(
-                "[{Station}] 完成檢測 Panel={Panel}, Field={Field}, Image={Image}, Defects={Count}",
-                _stationName, result.PanelId, result.FieldId, result.ImageId, result.DefectCodes.Count);
+                "[InspectWorker G{G}-W{W}] 完成檢測 Panel={Panel}, Field={Field}, Image={Image}, Defects={Count}",
+                _groupId, _workerId, result.PanelId, result.FieldId, result.ImageId, result.DefectCodes.Count);
 
-            await _messageBus.PublishAsync(result);
+            // 回傳給同組的 InspectControl
+            string routingKey = $"aoi.inspectcontrol.{_groupId}";
+            await _messageBus.PublishAsync(result, routingKey);
+
+            _logger.LogInformation(
+                "[InspectWorker G{G}-W{W}] 已送出結果 → {RoutingKey}",
+                _groupId, _workerId, routingKey);
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("[{Station}] InspectWorker 啟動，等待檢測任務…", _stationName);
+            _logger.LogInformation(
+                "[InspectWorker G{G}-W{W}] GPU 檢測站啟動完成，等待檢測任務...",
+                _groupId, _workerId);
+
             return Task.CompletedTask;
         }
     }

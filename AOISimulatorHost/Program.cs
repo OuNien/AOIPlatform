@@ -10,7 +10,7 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
-        var bus = new InMemoryMessageBus();
+        var bus = new RabbitMqMessageBus("InMemory");
 
         using IHost host = Host.CreateDefaultBuilder(args)
             .ConfigureServices(services =>

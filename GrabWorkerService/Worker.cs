@@ -1,5 +1,6 @@
 using AOI.Common.Messages;
 using AOI.Infrastructure.Messaging;
+using Microsoft.Extensions.Options;
 
 namespace GrabWorkerService
 {
@@ -8,34 +9,37 @@ namespace GrabWorkerService
         private readonly ILogger<Worker> _logger;
         private readonly IMessageBus _messageBus;
         private readonly Random _random = new();
-        private readonly string _stationName;
+        private readonly int _groupId;
+        private readonly int _workerId;
+        private readonly string _subscribeKey;
 
-        public Worker(ILogger<Worker> logger, IMessageBus messageBus)
+        public Worker(
+            ILogger<Worker> logger,
+            IMessageBus messageBus,
+            IOptions<GrabWorkerOptions> options)
         {
             _logger = logger;
             _messageBus = messageBus;
-            _stationName = "Grab-1";   // 之後可以改成從設定檔讀，當作站別名稱
 
-            // 只有 InMemory 版才有 Subscribe，未來換 RabbitMQ 時會改這邊
-            if (messageBus is RabbitMqMessageBus inMemory)
-            {
-                //_messageBus.Subscribe<CaptureOrder>(OnMessageAsync);
-                _messageBus.Subscribe<CaptureOrder>($"aoi.grabworker.{_stationName}", OnMessageAsync);
+            _groupId = options.Value.GroupId;
+            _workerId = options.Value.WorkerId;
 
-            }
+            // 取像站的專屬 Queue = aoi.grabworker.{group}.{worker}
+            _subscribeKey = $"aoi.grabworker.{_groupId}.{_workerId}";
+
+            _logger.LogInformation("[GrabWorker G{G}-W{W}] 訂閱 {Key}",
+                _groupId, _workerId, _subscribeKey);
+
+            _messageBus.SubscribeAsync<CaptureOrder>(_subscribeKey, OnMessageAsync);
         }
 
-        private async Task OnMessageAsync(object msg)
+        private async Task OnMessageAsync(CaptureOrder order)
         {
-            // 只處理 CaptureOrder，其它訊息忽略
-            if (msg is not CaptureOrder order)
-                return;
-
             _logger.LogInformation(
-                "[{Station}] 收到取像命令 Panel={Panel}, Field={Field}",
-                _stationName, order.PanelId, order.FieldId);
+                "[GrabWorker G{G}-W{W}] 收到取像命令 Panel={Panel}, Field={Field}",
+                _groupId, _workerId, order.PanelId, order.FieldId);
 
-            // 模擬取像時間（例如 200~500ms）
+            // 模擬取像時間
             await Task.Delay(_random.Next(200, 500));
 
             var imageId = $"{order.PanelId}_{order.FieldId}_{Guid.NewGuid():N}";
@@ -50,16 +54,23 @@ namespace GrabWorkerService
             };
 
             _logger.LogInformation(
-                "[{Station}] 完成取像 ImageId={ImageId}, Path={Path}",
-                _stationName, captured.ImageId, captured.ImagePath);
+                "[GrabWorker G{G}-W{W}] 完成取像 ImageId={ImageId}",
+                _groupId, _workerId, captured.ImageId);
 
-            await _messageBus.PublishAsync(captured);
+            // Publish 給 Mapping，同組：aoi.mapping.{group}
+            string routingKey = $"aoi.mapping.{_groupId}";
+
+            await _messageBus.PublishAsync(captured, routingKey);
+
+            _logger.LogInformation(
+                "[GrabWorker G{G}-W{W}] 已送出影像 → {RoutingKey}",
+                _groupId, _workerId, routingKey);
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("[{Station}] GrabWorker 啟動，等待取像命令…", _stationName);
-            // 所有事情都靠 OnMessageAsync 被觸發，不需要 while loop
+            _logger.LogInformation("[GrabWorker G{G}-W{W}] 已啟動，等待取像命令…",
+                _groupId, _workerId);
             return Task.CompletedTask;
         }
     }

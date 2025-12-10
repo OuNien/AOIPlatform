@@ -1,4 +1,5 @@
 using AOI.Infrastructure.Messaging;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -15,8 +16,13 @@ public class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureServices((context, services) =>
             {
-                var bus = new RabbitMqMessageBus("localhost");
-                services.AddSingleton<IMessageBus>(bus);
+                var config = context.Configuration;
+
+                var host = config["RabbitMQ:Host"] ?? "localhost";
+                services.AddSingleton<IMessageBus>(new RabbitMqMessageBus(host));
+
+                services.Configure<MappingOptions>(
+                    config.GetSection("Mapping"));
 
                 services.AddHostedService<Worker>();
             });

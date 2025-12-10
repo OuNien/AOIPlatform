@@ -51,3 +51,4 @@ D:\Work\AOIPlatform\InspectWorkerService\obj\Debug\net8.0\InspectWorkerService.p
 D:\Work\AOIPlatform\InspectWorkerService\obj\Debug\net8.0\InspectWorkerService.genruntimeconfig.cache
 D:\Work\AOIPlatform\InspectWorkerService\obj\Debug\net8.0\ref\InspectWorkerService.dll
 D:\Work\AOIPlatform\InspectWorkerService\bin\Debug\net8.0\RabbitMQ.Client.dll
+D:\Work\AOIPlatform\InspectWorkerService\obj\Debug\net8.0\InspectWorkerService.sourcelink.json

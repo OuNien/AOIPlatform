@@ -51,3 +51,4 @@ D:\Work\AOIPlatform\MappingService\obj\Debug\net8.0\MappingService.pdb
 D:\Work\AOIPlatform\MappingService\obj\Debug\net8.0\MappingService.genruntimeconfig.cache
 D:\Work\AOIPlatform\MappingService\obj\Debug\net8.0\ref\MappingService.dll
 D:\Work\AOIPlatform\MappingService\bin\Debug\net8.0\RabbitMQ.Client.dll
+D:\Work\AOIPlatform\MappingService\obj\Debug\net8.0\MappingService.sourcelink.json

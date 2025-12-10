@@ -34,3 +34,5 @@ D:\Work\AOIPlatform\UI.GatewayApi\obj\Debug\net8.0\UI.GatewayApi.pdb
 D:\Work\AOIPlatform\UI.GatewayApi\obj\Debug\net8.0\UI.GatewayApi.genruntimeconfig.cache
 D:\Work\AOIPlatform\UI.GatewayApi\obj\Debug\net8.0\ref\UI.GatewayApi.dll
 D:\Work\AOIPlatform\UI.GatewayApi\bin\Debug\net8.0\RabbitMQ.Client.dll
+D:\Work\AOIPlatform\UI.GatewayApi\obj\Debug\net8.0\UI.GatewayApi.sourcelink.json
+D:\Work\AOIPlatform\UI.GatewayApi\obj\Debug\net8.0\UI.GatewayApi.MvcApplicationPartsAssemblyInfo.cs

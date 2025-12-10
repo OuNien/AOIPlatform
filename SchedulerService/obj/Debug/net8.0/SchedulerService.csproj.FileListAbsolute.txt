@@ -51,3 +51,4 @@ D:\Work\AOIPlatform\SchedulerService\bin\Debug\net8.0\AOI.Infrastructure.dll
 D:\Work\AOIPlatform\SchedulerService\bin\Debug\net8.0\AOI.Common.pdb
 D:\Work\AOIPlatform\SchedulerService\bin\Debug\net8.0\AOI.Infrastructure.pdb
 D:\Work\AOIPlatform\SchedulerService\bin\Debug\net8.0\RabbitMQ.Client.dll
+D:\Work\AOIPlatform\SchedulerService\obj\Debug\net8.0\SchedulerService.sourcelink.json

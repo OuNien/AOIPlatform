@@ -81,3 +81,4 @@ D:\Work\AOIPlatform\AOISimulatorHost\bin\Debug\net8.0\InspectWorkerService.dll
 D:\Work\AOIPlatform\AOISimulatorHost\bin\Debug\net8.0\InspectControlService.pdb
 D:\Work\AOIPlatform\AOISimulatorHost\bin\Debug\net8.0\InspectWorkerService.pdb
 D:\Work\AOIPlatform\AOISimulatorHost\bin\Debug\net8.0\RabbitMQ.Client.dll
+D:\Work\AOIPlatform\AOISimulatorHost\obj\Debug\net8.0\AOISimulatorHost.sourcelink.json

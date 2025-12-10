@@ -1,6 +1,7 @@
 using AOI.Infrastructure.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace GrabWorkerService;
 
@@ -15,9 +16,14 @@ public class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureServices((context, services) =>
             {
-                // 單獨跑 GrabWorkerService 專案時會用到這個 bus
-                var bus = new RabbitMqMessageBus("localhost");
-                services.AddSingleton<IMessageBus>(bus);
+                var config = context.Configuration;
+
+                // RabbitMQ Host
+                var host = config["RabbitMQ:Host"] ?? "localhost";
+                services.AddSingleton<IMessageBus>(new RabbitMqMessageBus(host));
+
+                // 載入 GrabWorker 參數
+                services.Configure<GrabWorkerOptions>(config.GetSection("GrabWorker"));
 
                 services.AddHostedService<Worker>();
             });

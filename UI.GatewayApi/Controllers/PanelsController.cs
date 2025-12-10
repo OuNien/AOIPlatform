@@ -1,8 +1,8 @@
 ﻿using AOI.Common.Messages;
 using AOI.Infrastructure.Messaging;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using UI.GatewayApi.Dtos;
+using Microsoft.Extensions.Options;
+using UI.GatewayApi;
 
 namespace UI.GatewayApi.Controllers
 {
@@ -10,49 +10,43 @@ namespace UI.GatewayApi.Controllers
     [Route("api/[controller]")]
     public class PanelsController : ControllerBase
     {
-        private readonly IMessageBus _messageBus;
-        private readonly ILogger<PanelsController> _logger;
+        private readonly IMessageBus _bus;
+        private readonly ResultStore _store;
+        private readonly int _groupId;
 
-        public PanelsController(IMessageBus messageBus, ILogger<PanelsController> logger)
+        public PanelsController(
+            IMessageBus bus,
+            ResultStore store,
+            IOptions<UIOptions> options)
         {
-            _messageBus = messageBus;
-            _logger = logger;
+            _bus = bus;
+            _store = store;
+            _groupId = options.Value.GroupId;
         }
 
-        /// <summary>
-        /// 由 UI 呼叫，要求設備開始檢測一片 Panel
-        /// </summary>
         [HttpPost("start")]
-        public async Task<IActionResult> StartPanel([FromBody] PanelStartRequest request)
+        public async Task<IActionResult> StartPanel([FromBody] UiStartPanel request)
         {
-            if (request.FieldCount <= 0)
+            string routingKey = $"aoi.scheduler.{_groupId}";
+
+            await _bus.PublishAsync(request, routingKey);
+
+            return Ok(new
             {
-                return BadRequest("FieldCount 必須 > 0");
-            }
-
-            var cmd = new UiStartPanel
-            {
-                PanelId = request.PanelId,
-                LotId = request.LotId,
-                FieldCount = request.FieldCount,
-                RecipeId = request.RecipeId
-            };
-
-            _logger.LogInformation(
-                "[UI.Gateway] 收到 StartPanel 請求 Panel={Panel}, Lot={Lot}, Fields={Count}, Recipe={Recipe}",
-                cmd.PanelId, cmd.LotId, cmd.FieldCount, cmd.RecipeId);
-
-            await _messageBus.PublishAsync(cmd);
-
-            // 簡單回應，說已經接受，實際檢測流程交給後端站別跑
-            return Accepted(new
-            {
-                cmd.PanelId,
-                cmd.LotId,
-                cmd.FieldCount,
-                cmd.RecipeId,
-                Status = "Started"
+                message = "Panel start command sent.",
+                routingKey
             });
+        }
+
+        [HttpGet("{panelId}")]
+        public IActionResult GetPanelResult(string panelId)
+        {
+            var result = _store.Get(panelId);
+
+            if (result == null)
+                return NotFound(new { message = "Panel result not ready" });
+
+            return Ok(result);
         }
     }
 }

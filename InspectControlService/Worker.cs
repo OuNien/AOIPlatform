@@ -1,5 +1,6 @@
 using AOI.Common.Messages;
 using AOI.Infrastructure.Messaging;
+using Microsoft.Extensions.Options;
 
 namespace InspectControlService
 {
@@ -7,7 +8,10 @@ namespace InspectControlService
     {
         private readonly ILogger<Worker> _logger;
         private readonly IMessageBus _messageBus;
-        private readonly string _stationName = "InspectCtrl-1";
+
+        private readonly int _groupId;
+        private readonly int _workerCount;
+        private readonly string _subscribeKey;
 
         // PanelId -> expected task count
         private readonly Dictionary<string, int> _expectedCount = new();
@@ -16,45 +20,35 @@ namespace InspectControlService
         // PanelId -> FieldId -> DefectCodes
         private readonly Dictionary<string, Dictionary<string, List<string>>> _defects = new();
 
-        public Worker(ILogger<Worker> logger, IMessageBus messageBus)
+        public Worker(
+            ILogger<Worker> logger,
+            IMessageBus messageBus,
+            IOptions<InspectControlOptions> options)
         {
             _logger = logger;
             _messageBus = messageBus;
 
-            if (messageBus is RabbitMqMessageBus inMemory)
-            {
-                //_messageBus.Subscribe<ImageMapped>(HandleImageMappedAsync);
-                //_messageBus.Subscribe<InspectResult>(HandleInspectResultAsync);
-                _messageBus.Subscribe<ImageMapped>("aoi.inspectcontrol.1", HandleImageMappedAsync);
-                _messageBus.Subscribe<InspectResult>("aoi.inspectcontrol.1", HandleInspectResultAsync);
+            _groupId = options.Value.GroupId;
+            _workerCount = options.Value.WorkerCount;
 
+            _subscribeKey = $"aoi.inspectcontrol.{_groupId}";
 
-            }
-        }
+            _logger.LogInformation("[InspectCtrl-{Group}] 訂閱 {Key}",
+                _groupId, _subscribeKey);
 
-        private async Task OnMessageAsync(object msg)
-        {
-            switch (msg)
-            {
-                case ImageMapped mapped:
-                    await HandleImageMappedAsync(mapped);
-                    break;
-                case InspectResult result:
-                    await HandleInspectResultAsync(result);
-                    break;
-            }
+            _messageBus.SubscribeAsync<ImageMapped>(_subscribeKey, HandleImageMappedAsync);
+            _messageBus.SubscribeAsync<InspectResult>(_subscribeKey, HandleInspectResultAsync);
         }
 
         /// <summary>
-        /// 收到 Mapping → 派檢測任務給 InspectWorker
+        /// 收到 Mapping → 發 InspectOrder 給 InspectWorker.*.*
         /// </summary>
         private async Task HandleImageMappedAsync(ImageMapped mapped)
         {
             _logger.LogInformation(
-                "[{Station}] 收到 ImageMapped Panel={Panel}, Field={Field}, Image={Image}, Step={Step}",
-                _stationName, mapped.PanelId, mapped.FieldId, mapped.ImageId, mapped.Step);
+                "[InspectCtrl-{Group}] 收到 ImageMapped Panel={Panel}, Field={Field}, Image={Image}, Step={Step}",
+                _groupId, mapped.PanelId, mapped.FieldId, mapped.ImageId, mapped.Step);
 
-            // 建立 InspectOrder
             var order = new InspectOrder
             {
                 PanelId = mapped.PanelId,
@@ -74,21 +68,26 @@ namespace InspectControlService
 
             _expectedCount[mapped.PanelId]++;
 
-            _logger.LogInformation(
-                "[{Station}] 發出 InspectOrder Panel={Panel}, Field={Field}, Step={Step}",
-                _stationName, order.PanelId, order.FieldId, order.Step);
+            // 決定要派給哪一台 InspectWorker
+            int workerTarget = (_expectedCount[mapped.PanelId] % _workerCount);
 
-            await _messageBus.PublishAsync(order);
+            string routingKey = $"aoi.inspectworker.{_groupId}.{workerTarget}";
+
+            _logger.LogInformation(
+                "[InspectCtrl-{Group}] 發出 InspectOrder → {Worker}  Panel={Panel} Field={Field}",
+                _groupId, routingKey, order.PanelId, order.FieldId);
+
+            await _messageBus.PublishAsync(order, routingKey);
         }
 
         /// <summary>
-        /// 收到 InspectResult → 累計結果 → 判斷是否 Panel 完成
+        /// 收到 InspectResult → 累計 → 若此 Panel 全部完成 → 發 PanelInspectionCompleted 給 UI
         /// </summary>
         private async Task HandleInspectResultAsync(InspectResult result)
         {
             _logger.LogInformation(
-                "[{Station}] 收到檢測結果 Panel={Panel}, Field={Field}, Image={Image}, Step={Step}, Defects={Count}",
-                _stationName, result.PanelId, result.FieldId, result.ImageId, result.Step, result.DefectCodes.Count);
+                "[InspectCtrl-{Group}] 收到 InspectResult Panel={Panel}, Field={Field}, Defects={Count}",
+                _groupId, result.PanelId, result.FieldId, result.DefectCodes.Count);
 
             if (!_defects.TryGetValue(result.PanelId, out var fieldMap))
             {
@@ -104,22 +103,14 @@ namespace InspectControlService
 
             defectList.AddRange(result.DefectCodes);
 
-            if (_completedCount.ContainsKey(result.PanelId))
-            {
-                _completedCount[result.PanelId]++;
-            }
-            else
-            {
-                _completedCount[result.PanelId] = 1;
-            }
+            _completedCount[result.PanelId]++;
 
-            // 檢查是否該 Panel 所有檢測都完成
-            if (_expectedCount.TryGetValue(result.PanelId, out var expected) &&
-                _completedCount[result.PanelId] >= expected)
+            // 檢查 Panel 是否全部完成
+            if (_completedCount[result.PanelId] >= _expectedCount[result.PanelId])
             {
                 _logger.LogInformation(
-                    "[{Station}] Panel={Panel} 所有檢測完成，開始合併並發出 PanelInspectionCompleted",
-                    _stationName, result.PanelId);
+                    "[InspectCtrl-{Group}] Panel={Panel} 所有檢測完成 → 發 PanelInspectionCompleted",
+                    _groupId, result.PanelId);
 
                 var completed = new PanelInspectionCompleted
                 {
@@ -127,9 +118,11 @@ namespace InspectControlService
                     DefectsByField = fieldMap
                 };
 
-                await _messageBus.PublishAsync(completed);
+                // 發到 UI Gateway
+                string routingKey = $"aoi.gateway.{_groupId}";
+                await _messageBus.PublishAsync(completed, routingKey);
 
-                // 依需求可選擇保留或清掉記憶體
+                // 清理記憶體
                 _expectedCount.Remove(result.PanelId);
                 _completedCount.Remove(result.PanelId);
                 _defects.Remove(result.PanelId);
@@ -138,7 +131,7 @@ namespace InspectControlService
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("[{Station}] InspectControlService 啟動，等待 mapping / 檢測結果…", _stationName);
+            _logger.LogInformation("[InspectCtrl-{Group}] 檢測控制站啟動完成", _groupId);
             return Task.CompletedTask;
         }
     }

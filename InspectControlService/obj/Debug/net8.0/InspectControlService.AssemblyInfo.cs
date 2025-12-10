@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InspectControlService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7a5197ed22c02c86ac0e129e7b5a753d360abfc8")]
 [assembly: System.Reflection.AssemblyProductAttribute("InspectControlService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InspectControlService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

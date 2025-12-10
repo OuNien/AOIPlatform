@@ -13,3 +13,4 @@ D:\Work\AOIPlatform\AOI.Infrastructure\obj\Debug\net8.0\AOI.Infrastructure.dll
 D:\Work\AOIPlatform\AOI.Infrastructure\obj\Debug\net8.0\refint\AOI.Infrastructure.dll
 D:\Work\AOIPlatform\AOI.Infrastructure\obj\Debug\net8.0\AOI.Infrastructure.pdb
 D:\Work\AOIPlatform\AOI.Infrastructure\obj\Debug\net8.0\ref\AOI.Infrastructure.dll
+D:\Work\AOIPlatform\AOI.Infrastructure\obj\Debug\net8.0\AOI.Infrastructure.sourcelink.json
