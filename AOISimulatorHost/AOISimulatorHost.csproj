@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AOI.Common\AOI.Common.csproj" />
+    <ProjectReference Include="..\AOI.Infrastructure\AOI.Infrastructure.csproj" />
+    <ProjectReference Include="..\GrabControlService\GrabControlService.csproj" />
+    <ProjectReference Include="..\GrabWorkerService\GrabWorkerService.csproj" />
+    <ProjectReference Include="..\InspectControlService\InspectControlService.csproj" />
+    <ProjectReference Include="..\InspectWorkerService\InspectWorkerService.csproj" />
+    <ProjectReference Include="..\MappingService\MappingService.csproj" />
+    <ProjectReference Include="..\SchedulerService\SchedulerService.csproj" />
+  </ItemGroup>
+
+</Project>

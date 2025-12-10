@@ -1,0 +1,11 @@
+D:\Work\AOIPlatform\AOI.Common\bin\Debug\net8.0\AOI.Common.deps.json
+D:\Work\AOIPlatform\AOI.Common\bin\Debug\net8.0\AOI.Common.dll
+D:\Work\AOIPlatform\AOI.Common\bin\Debug\net8.0\AOI.Common.pdb
+D:\Work\AOIPlatform\AOI.Common\obj\Debug\net8.0\AOI.Common.GeneratedMSBuildEditorConfig.editorconfig
+D:\Work\AOIPlatform\AOI.Common\obj\Debug\net8.0\AOI.Common.AssemblyInfoInputs.cache
+D:\Work\AOIPlatform\AOI.Common\obj\Debug\net8.0\AOI.Common.AssemblyInfo.cs
+D:\Work\AOIPlatform\AOI.Common\obj\Debug\net8.0\AOI.Common.csproj.CoreCompileInputs.cache
+D:\Work\AOIPlatform\AOI.Common\obj\Debug\net8.0\AOI.Common.dll
+D:\Work\AOIPlatform\AOI.Common\obj\Debug\net8.0\refint\AOI.Common.dll
+D:\Work\AOIPlatform\AOI.Common\obj\Debug\net8.0\AOI.Common.pdb
+D:\Work\AOIPlatform\AOI.Common\obj\Debug\net8.0\ref\AOI.Common.dll

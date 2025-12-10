@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "qv1Hd1XlvsIMjUGRnPTdAQeWqfIbrPpD1quUWcAwCCc=",
+  "Source": "UI.GatewayApi",
+  "BasePath": "_content/UI.GatewayApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
