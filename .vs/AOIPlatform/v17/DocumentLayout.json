@@ -3,6 +3,66 @@
   "WorkspaceRootPath": "D:\\Work\\AOIPlatform\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{5B42CDAC-8371-4D56-8F1D-903015405260}|GrabControlService\\GrabControlService.csproj|d:\\work\\aoiplatform\\grabcontrolservice\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B42CDAC-8371-4D56-8F1D-903015405260}|GrabControlService\\GrabControlService.csproj|solutionrelative:grabcontrolservice\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D70132F-2ACA-4CE7-A89F-6B8550087993}|GrabWorkerService\\GrabWorkerService.csproj|d:\\work\\aoiplatform\\grabworkerservice\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D70132F-2ACA-4CE7-A89F-6B8550087993}|GrabWorkerService\\GrabWorkerService.csproj|solutionrelative:grabworkerservice\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2216F3C-46D1-4590-A68C-05F7BE79B762}|AOI.Common\\AOI.Common.csproj|d:\\work\\aoiplatform\\aoi.common\\domain\\panelside.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2216F3C-46D1-4590-A68C-05F7BE79B762}|AOI.Common\\AOI.Common.csproj|solutionrelative:aoi.common\\domain\\panelside.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2216F3C-46D1-4590-A68C-05F7BE79B762}|AOI.Common\\AOI.Common.csproj|d:\\work\\aoiplatform\\aoi.common\\domain\\panel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2216F3C-46D1-4590-A68C-05F7BE79B762}|AOI.Common\\AOI.Common.csproj|solutionrelative:aoi.common\\domain\\panel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7708DFFD-D1AE-4D6C-8D8D-23F7EDE79C85}|MappingService\\MappingService.csproj|d:\\work\\aoiplatform\\mappingservice\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7708DFFD-D1AE-4D6C-8D8D-23F7EDE79C85}|MappingService\\MappingService.csproj|solutionrelative:mappingservice\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2216F3C-46D1-4590-A68C-05F7BE79B762}|AOI.Common\\AOI.Common.csproj|d:\\work\\aoiplatform\\aoi.common\\messages\\imagecaptured.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2216F3C-46D1-4590-A68C-05F7BE79B762}|AOI.Common\\AOI.Common.csproj|solutionrelative:aoi.common\\messages\\imagecaptured.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B42CDAC-8371-4D56-8F1D-903015405260}|GrabControlService\\GrabControlService.csproj|d:\\work\\aoiplatform\\grabcontrolservice\\grabcontroloptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B42CDAC-8371-4D56-8F1D-903015405260}|GrabControlService\\GrabControlService.csproj|solutionrelative:grabcontrolservice\\grabcontroloptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2216F3C-46D1-4590-A68C-05F7BE79B762}|AOI.Common\\AOI.Common.csproj|d:\\work\\aoiplatform\\aoi.common\\messages\\grabstart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2216F3C-46D1-4590-A68C-05F7BE79B762}|AOI.Common\\AOI.Common.csproj|solutionrelative:aoi.common\\messages\\grabstart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{047D2F05-435A-4513-9C5A-E3BFE35B1E74}|SchedulerService\\SchedulerService.csproj|d:\\work\\aoiplatform\\schedulerservice\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{047D2F05-435A-4513-9C5A-E3BFE35B1E74}|SchedulerService\\SchedulerService.csproj|solutionrelative:schedulerservice\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2216F3C-46D1-4590-A68C-05F7BE79B762}|AOI.Common\\AOI.Common.csproj|d:\\work\\aoiplatform\\aoi.common\\messages\\captureorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2216F3C-46D1-4590-A68C-05F7BE79B762}|AOI.Common\\AOI.Common.csproj|solutionrelative:aoi.common\\messages\\captureorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58DF31A3-C5E3-4A0D-8A26-2DBC6EF13077}|UI.GatewayApi\\UI.GatewayApi.csproj|d:\\work\\aoiplatform\\ui.gatewayapi\\controllers\\grabcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58DF31A3-C5E3-4A0D-8A26-2DBC6EF13077}|UI.GatewayApi\\UI.GatewayApi.csproj|solutionrelative:ui.gatewayapi\\controllers\\grabcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D70132F-2ACA-4CE7-A89F-6B8550087993}|GrabWorkerService\\GrabWorkerService.csproj|d:\\work\\aoiplatform\\grabworkerservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D70132F-2ACA-4CE7-A89F-6B8550087993}|GrabWorkerService\\GrabWorkerService.csproj|solutionrelative:grabworkerservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D70132F-2ACA-4CE7-A89F-6B8550087993}|GrabWorkerService\\GrabWorkerService.csproj|d:\\work\\aoiplatform\\grabworkerservice\\grabworkeroptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D70132F-2ACA-4CE7-A89F-6B8550087993}|GrabWorkerService\\GrabWorkerService.csproj|solutionrelative:grabworkerservice\\grabworkeroptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B42CDAC-8371-4D56-8F1D-903015405260}|GrabControlService\\GrabControlService.csproj|d:\\work\\aoiplatform\\grabcontrolservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{5B42CDAC-8371-4D56-8F1D-903015405260}|GrabControlService\\GrabControlService.csproj|solutionrelative:grabcontrolservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2216F3C-46D1-4590-A68C-05F7BE79B762}|AOI.Common\\AOI.Common.csproj|d:\\work\\aoiplatform\\aoi.common\\messages\\panelinspectioncompleted.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2216F3C-46D1-4590-A68C-05F7BE79B762}|AOI.Common\\AOI.Common.csproj|solutionrelative:aoi.common\\messages\\panelinspectioncompleted.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{58DF31A3-C5E3-4A0D-8A26-2DBC6EF13077}|UI.GatewayApi\\UI.GatewayApi.csproj|d:\\work\\aoiplatform\\ui.gatewayapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{58DF31A3-C5E3-4A0D-8A26-2DBC6EF13077}|UI.GatewayApi\\UI.GatewayApi.csproj|solutionrelative:ui.gatewayapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -42,24 +102,219 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Worker.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\MappingService\\Worker.cs",
+              "RelativeDocumentMoniker": "MappingService\\Worker.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\MappingService\\Worker.cs",
+              "RelativeToolTip": "MappingService\\Worker.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAcwCUAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T07:20:03.229Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PanelSide.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\AOI.Common\\Domain\\PanelSide.cs",
+              "RelativeDocumentMoniker": "AOI.Common\\Domain\\PanelSide.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\AOI.Common\\Domain\\PanelSide.cs",
+              "RelativeToolTip": "AOI.Common\\Domain\\PanelSide.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABIAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T05:47:51.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Panel.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\AOI.Common\\Domain\\Panel.cs",
+              "RelativeDocumentMoniker": "AOI.Common\\Domain\\Panel.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\AOI.Common\\Domain\\Panel.cs",
+              "RelativeToolTip": "AOI.Common\\Domain\\Panel.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T05:44:33.412Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "GrabController.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\UI.GatewayApi\\Controllers\\GrabController.cs",
+              "RelativeDocumentMoniker": "UI.GatewayApi\\Controllers\\GrabController.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\UI.GatewayApi\\Controllers\\GrabController.cs",
+              "RelativeToolTip": "UI.GatewayApi\\Controllers\\GrabController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAAwBoAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T05:43:24.677Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CaptureOrder.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\AOI.Common\\Messages\\CaptureOrder.cs",
+              "RelativeDocumentMoniker": "AOI.Common\\Messages\\CaptureOrder.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\AOI.Common\\Messages\\CaptureOrder.cs",
+              "RelativeToolTip": "AOI.Common\\Messages\\CaptureOrder.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T05:39:02.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Worker.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\GrabWorkerService\\Worker.cs",
+              "RelativeDocumentMoniker": "GrabWorkerService\\Worker.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\GrabWorkerService\\Worker.cs",
+              "RelativeToolTip": "GrabWorkerService\\Worker.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T03:38:14.828Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\GrabWorkerService\\Program.cs",
+              "RelativeDocumentMoniker": "GrabWorkerService\\Program.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\GrabWorkerService\\Program.cs",
+              "RelativeToolTip": "GrabWorkerService\\Program.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAxwBcAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T03:37:40.405Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Worker.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\SchedulerService\\Worker.cs",
+              "RelativeDocumentMoniker": "SchedulerService\\Worker.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\SchedulerService\\Worker.cs",
+              "RelativeToolTip": "SchedulerService\\Worker.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAcwCsAAABdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T03:23:02.407Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GrabStart.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\AOI.Common\\Messages\\GrabStart.cs",
+              "RelativeDocumentMoniker": "AOI.Common\\Messages\\GrabStart.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\AOI.Common\\Messages\\GrabStart.cs",
+              "RelativeToolTip": "AOI.Common\\Messages\\GrabStart.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAsAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T03:19:08.977Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Worker.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\GrabControlService\\Worker.cs",
+              "RelativeDocumentMoniker": "GrabControlService\\Worker.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\GrabControlService\\Worker.cs",
+              "RelativeToolTip": "GrabControlService\\Worker.cs",
+              "ViewState": "AgIAAHcAAAAAAAAAAIAwwIMAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T02:53:08.89Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ImageCaptured.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\AOI.Common\\Messages\\ImageCaptured.cs",
+              "RelativeDocumentMoniker": "AOI.Common\\Messages\\ImageCaptured.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\AOI.Common\\Messages\\ImageCaptured.cs",
+              "RelativeToolTip": "AOI.Common\\Messages\\ImageCaptured.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAcwAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T03:19:35.671Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GrabControlOptions.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\GrabControlService\\GrabControlOptions.cs",
+              "RelativeDocumentMoniker": "GrabControlService\\GrabControlOptions.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\GrabControlService\\GrabControlOptions.cs",
+              "RelativeToolTip": "GrabControlService\\GrabControlOptions.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwAYAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T02:51:07.224Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "GrabWorkerOptions.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\GrabWorkerService\\GrabWorkerOptions.cs",
+              "RelativeDocumentMoniker": "GrabWorkerService\\GrabWorkerOptions.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\GrabWorkerService\\GrabWorkerOptions.cs",
+              "RelativeToolTip": "GrabWorkerService\\GrabWorkerOptions.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T03:37:16.418Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\GrabControlService\\appsettings.json",
+              "RelativeDocumentMoniker": "GrabControlService\\appsettings.json",
+              "ToolTip": "D:\\Work\\AOIPlatform\\GrabControlService\\appsettings.json",
+              "RelativeToolTip": "GrabControlService\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-11T02:52:46.739Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "PanelInspectionCompleted.cs",
+              "DocumentMoniker": "D:\\Work\\AOIPlatform\\AOI.Common\\Messages\\PanelInspectionCompleted.cs",
+              "RelativeDocumentMoniker": "AOI.Common\\Messages\\PanelInspectionCompleted.cs",
+              "ToolTip": "D:\\Work\\AOIPlatform\\AOI.Common\\Messages\\PanelInspectionCompleted.cs",
+              "RelativeToolTip": "AOI.Common\\Messages\\PanelInspectionCompleted.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T02:55:49.448Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Work\\AOIPlatform\\UI.GatewayApi\\Program.cs",
               "RelativeDocumentMoniker": "UI.GatewayApi\\Program.cs",
               "ToolTip": "D:\\Work\\AOIPlatform\\UI.GatewayApi\\Program.cs",
               "RelativeToolTip": "UI.GatewayApi\\Program.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-10T15:10:41.288Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 18,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Work\\AOIPlatform\\AOISimulatorHost\\Program.cs",
               "RelativeDocumentMoniker": "AOISimulatorHost\\Program.cs",
@@ -72,7 +327,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 16,
               "Title": "Worker.cs",
               "DocumentMoniker": "D:\\Work\\AOIPlatform\\InspectControlService\\Worker.cs",
               "RelativeDocumentMoniker": "InspectControlService\\Worker.cs",
@@ -85,7 +340,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 20,
               "Title": "IMessageBus.cs",
               "DocumentMoniker": "D:\\Work\\AOIPlatform\\AOI.Infrastructure\\Messaging\\IMessageBus.cs",
               "RelativeDocumentMoniker": "AOI.Infrastructure\\Messaging\\IMessageBus.cs",
@@ -98,7 +353,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 19,
               "Title": "RabbitMqMessageBus.cs",
               "DocumentMoniker": "D:\\Work\\AOIPlatform\\AOI.Infrastructure\\Messaging\\RabbitMqMessageBus.cs",
               "RelativeDocumentMoniker": "AOI.Infrastructure\\Messaging\\RabbitMqMessageBus.cs",
@@ -111,7 +366,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 17,
               "Title": "Worker.cs",
               "DocumentMoniker": "D:\\Work\\AOIPlatform\\InspectWorkerService\\Worker.cs",
               "RelativeDocumentMoniker": "InspectWorkerService\\Worker.cs",
@@ -124,7 +379,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 21,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Work\\AOIPlatform\\InspectWorkerService\\Program.cs",
               "RelativeDocumentMoniker": "InspectWorkerService\\Program.cs",
@@ -137,7 +392,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 22,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Work\\AOIPlatform\\InspectControlService\\Program.cs",
               "RelativeDocumentMoniker": "InspectControlService\\Program.cs",

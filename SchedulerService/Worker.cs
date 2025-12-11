@@ -29,27 +29,19 @@ namespace SchedulerService
             _logger.LogInformation("[Scheduler-{Group}] 訂閱 {Key}",
                 _groupId, _subscribeKey);
 
-            _messageBus.SubscribeAsync<UiStartPanel>(_subscribeKey, HandleUiStartPanelAsync);
+            _messageBus.SubscribeAsync<GrabStart>(_subscribeKey, HandleUiStartPanelAsync);
         }
 
-        private async Task HandleUiStartPanelAsync(UiStartPanel uiStart)
+        private async Task HandleUiStartPanelAsync(GrabStart grabStart)
         {
             _logger.LogInformation(
-                "[Scheduler-{Group}] 收到 UI 開始 PanelId={PanelId}, LotId={LotId}, FieldCount={FieldCount}, Recipe={Recipe}",
-                _groupId, uiStart.PanelId, uiStart.LotId, uiStart.FieldCount, uiStart.RecipeId);
-
-            var panel = new Panel
-            {
-                PanelId = uiStart.PanelId,
-                LotId = uiStart.LotId,
-                FieldCount = uiStart.FieldCount,
-                RecipeId = uiStart.RecipeId
-            };
+                "[Scheduler-{Group}] 收到 UI 開始",
+                _groupId);
 
             _logger.LogInformation("[Scheduler-{Group}] 發送 Panel 排程 → {RoutingKey}",
                 _groupId, $"aoi.grabcontrol.{_groupId}");
 
-            await _messageBus.PublishAsync(panel, $"aoi.grabcontrol.{_groupId}");
+            await _messageBus.PublishAsync(grabStart, $"aoi.grabcontrol.{_groupId}.command");
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)

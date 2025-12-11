@@ -9,3 +9,4 @@ D:\Work\AOIPlatform\AOI.Common\obj\Debug\net8.0\AOI.Common.dll
 D:\Work\AOIPlatform\AOI.Common\obj\Debug\net8.0\refint\AOI.Common.dll
 D:\Work\AOIPlatform\AOI.Common\obj\Debug\net8.0\AOI.Common.pdb
 D:\Work\AOIPlatform\AOI.Common\obj\Debug\net8.0\ref\AOI.Common.dll
+D:\Work\AOIPlatform\AOI.Common\obj\Debug\net8.0\AOI.Common.sourcelink.json

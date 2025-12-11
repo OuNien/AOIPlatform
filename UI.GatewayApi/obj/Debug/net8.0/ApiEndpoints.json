@@ -1,63 +1,15 @@
 [
   {
-    "ContainingType": "UI.GatewayApi.Controllers.PanelController",
-    "Method": "GetPanelResult",
-    "RelativePath": "api/Panel/{panelId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "panelId",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "UI.GatewayApi.Controllers.PanelController",
+    "ContainingType": "UI.GatewayApi.Controllers.GrabController",
     "Method": "StartPanel",
-    "RelativePath": "api/Panel/start",
+    "RelativePath": "api/Grab/GrabStart",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "request",
-        "Type": "AOI.Common.Messages.UiStartPanel",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "UI.GatewayApi.Controllers.PanelsController",
-    "Method": "GetPanelResult",
-    "RelativePath": "api/Panels/{panelId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "panelId",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "UI.GatewayApi.Controllers.PanelsController",
-    "Method": "StartPanel",
-    "RelativePath": "api/Panels/start",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "AOI.Common.Messages.UiStartPanel",
+        "Type": "AOI.Common.Messages.GrabStart",
         "IsRequired": true
       }
     ],

@@ -8,7 +8,9 @@ namespace AOI.Common.Messages
 {
     public sealed class CaptureOrder
     {
-        public string PanelId { get; init; } = default!;
-        public string FieldId { get; init; } = default!;
+        /// <summary>
+        /// 要拍照的 Panel
+        /// </summary>
+        public int PanelId { get; init; } = default!;
     }
 }

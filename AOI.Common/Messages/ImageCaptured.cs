@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace AOI.Common.Messages
 {
-    public sealed class ImageCaptured
+    public class ImageCaptured
     {
-        public string PanelId { get; init; } = default!;
-        public string FieldId { get; init; } = default!;
-        public string ImageId { get; init; } = default!;
-        public string ImagePath { get; init; } = default!;
-        public DateTimeOffset CapturedAt { get; init; }
+        public int PanelId { get; set; } = default!;
+        public string Side { get; set; } = default!;  // "Top" / "Bottom"
+       
+        public string StationId { get; set; } = default!;
+        public DateTimeOffset CapturedAt { get; set; }
     }
+
 }

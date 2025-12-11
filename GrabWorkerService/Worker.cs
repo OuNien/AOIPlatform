@@ -1,4 +1,4 @@
-using AOI.Common.Messages;
+ï»¿using AOI.Common.Messages;
 using AOI.Infrastructure.Messaging;
 using Microsoft.Extensions.Options;
 
@@ -7,71 +7,75 @@ namespace GrabWorkerService
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-        private readonly IMessageBus _messageBus;
-        private readonly Random _random = new();
-        private readonly int _groupId;
-        private readonly int _workerId;
-        private readonly string _subscribeKey;
+        private readonly IMessageBus _bus;
+        private readonly GrabWorkerOptions _opt;
+
+        private string StartPanelKey =>
+            $"aoi.grabworker.{_opt.GroupId}.{_opt.Side.ToLower()}.{_opt.WorkerId}";
+
+        private string CaptureOrderKey =>
+            $"aoi.grabworker.{_opt.GroupId}.{_opt.Side.ToLower()}.{_opt.WorkerId}.order";
+
+        private string ReportKey =>
+            $"aoi.grabcontrol.{_opt.GroupId}.captured";
 
         public Worker(
             ILogger<Worker> logger,
-            IMessageBus messageBus,
-            IOptions<GrabWorkerOptions> options)
+            IMessageBus bus,
+            IOptions<GrabWorkerOptions> opt)
         {
             _logger = logger;
-            _messageBus = messageBus;
+            _bus = bus;
+            _opt = opt.Value;
 
-            _groupId = options.Value.GroupId;
-            _workerId = options.Value.WorkerId;
+            // GrabControl å»£æ’­ GrabStart çµ¦æ‰€æœ‰å–åƒç«™
+            _bus.SubscribeAsync<GrabStart>(StartPanelKey, HandleGrabStartAsync);
 
-            // ¨ú¹³¯¸ªº±MÄİ Queue = aoi.grabworker.{group}.{worker}
-            _subscribeKey = $"aoi.grabworker.{_groupId}.{_workerId}";
-
-            _logger.LogInformation("[GrabWorker G{G}-W{W}] ­q¾\ {Key}",
-                _groupId, _workerId, _subscribeKey);
-
-            _messageBus.SubscribeAsync<CaptureOrder>(_subscribeKey, OnMessageAsync);
-        }
-
-        private async Task OnMessageAsync(CaptureOrder order)
-        {
-            _logger.LogInformation(
-                "[GrabWorker G{G}-W{W}] ¦¬¨ì¨ú¹³©R¥O Panel={Panel}, Field={Field}",
-                _groupId, _workerId, order.PanelId, order.FieldId);
-
-            // ¼ÒÀÀ¨ú¹³®É¶¡
-            await Task.Delay(_random.Next(200, 500));
-
-            var imageId = $"{order.PanelId}_{order.FieldId}_{Guid.NewGuid():N}";
-
-            var captured = new ImageCaptured
-            {
-                PanelId = order.PanelId,
-                FieldId = order.FieldId,
-                ImageId = imageId,
-                ImagePath = $@"\\dummy\images\{imageId}.png",
-                CapturedAt = DateTimeOffset.Now
-            };
-
-            _logger.LogInformation(
-                "[GrabWorker G{G}-W{W}] §¹¦¨¨ú¹³ ImageId={ImageId}",
-                _groupId, _workerId, captured.ImageId);
-
-            // Publish µ¹ Mapping¡A¦P²Õ¡Gaoi.mapping.{group}
-            string routingKey = $"aoi.mapping.{_groupId}";
-
-            await _messageBus.PublishAsync(captured, routingKey);
-
-            _logger.LogInformation(
-                "[GrabWorker G{G}-W{W}] ¤w°e¥X¼v¹³ ¡÷ {RoutingKey}",
-                _groupId, _workerId, routingKey);
+            // GrabControl é‡å°æ¯ä¸€å° Worker ä¸‹ CaptureOrder
+            _bus.SubscribeAsync<CaptureOrder>(CaptureOrderKey, HandleCaptureOrderAsync);
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("[GrabWorker G{G}-W{W}] ¤w±Ò°Ê¡Aµ¥«İ¨ú¹³©R¥O¡K",
-                _groupId, _workerId);
+            _logger.LogInformation(
+                "[GrabWorker-{Side}{Id}] Ready (Group={Group}) è®¢é˜… StartPanel={StartKey}, CaptureOrder={OrderKey}",
+                _opt.Side, _opt.WorkerId, _opt.GroupId, StartPanelKey, CaptureOrderKey);
+
             return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// æ”¶åˆ° GrabStartï¼šè¨˜ä½ç›®å‰çš„ PanelId èˆ‡é æœŸ Panel æ•¸
+        /// </summary>
+        private Task HandleGrabStartAsync(GrabStart grabStart)
+        {
+            _logger.LogInformation(
+                "[GrabWorker-{Side}{Id}] StartPanel Panel={Panel}, ExpectedFrames={Frames}",
+                _opt.Side, _opt.WorkerId);
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// æ”¶åˆ°æ§åˆ¶ç«™ä¸‹é”çš„ CaptureOrder æ‰æ‹ç…§ï¼ˆæ¨¡æ“¬ï¼‰
+        /// </summary>
+        private async Task HandleCaptureOrderAsync(CaptureOrder order)
+        {
+            var now = DateTimeOffset.Now;
+
+            var image = new ImageCaptured
+            {
+                PanelId = order.PanelId,
+                Side = _opt.Side, // "Top" / "Bottom"
+                StationId = $"{_opt.Side}{_opt.WorkerId}",
+                CapturedAt = now
+            };
+
+            _logger.LogInformation(
+                "[GrabWorker-{Side}{Id}] Capture Panel={Panel} â†’ ImageCaptured",
+                _opt.Side, _opt.WorkerId, image.PanelId);
+
+            await _bus.PublishAsync(image, ReportKey);
         }
     }
 }

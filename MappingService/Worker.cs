@@ -35,7 +35,7 @@ namespace MappingService
         {
             _logger.LogInformation(
                 "[Mapping-{Group}] 收到影像 Panel={Panel}, Field={Field}, Image={Image}",
-                _groupId, captured.PanelId, captured.FieldId, captured.ImageId);
+                _groupId, captured.PanelId);
 
             // 模擬辨識/Recipe對應
             await Task.Delay(_random.Next(100, 300));
@@ -45,9 +45,9 @@ namespace MappingService
 
             var mapped = new ImageMapped
             {
-                PanelId = captured.PanelId,
-                FieldId = captured.FieldId,
-                ImageId = captured.ImageId,
+                PanelId = captured.PanelId.ToString(),
+                FieldId = "captured.FieldId",
+                ImageId = "captured.ImageId",
                 RecipeId = recipeId,
                 Step = step
             };
