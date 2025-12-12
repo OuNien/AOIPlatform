@@ -1,0 +1,15 @@
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\bin\Debug\net8.0-windows\AOI.GrabProgressWinForms.exe
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\bin\Debug\net8.0-windows\AOI.GrabProgressWinForms.deps.json
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\bin\Debug\net8.0-windows\AOI.GrabProgressWinForms.runtimeconfig.json
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\bin\Debug\net8.0-windows\AOI.GrabProgressWinForms.dll
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\bin\Debug\net8.0-windows\AOI.GrabProgressWinForms.pdb
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\obj\Debug\net8.0-windows\AOI.GrabProgress.WinForms.GeneratedMSBuildEditorConfig.editorconfig
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\obj\Debug\net8.0-windows\AOI.GrabProgress.WinForms.AssemblyInfoInputs.cache
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\obj\Debug\net8.0-windows\AOI.GrabProgress.WinForms.AssemblyInfo.cs
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\obj\Debug\net8.0-windows\AOI.GrabProgress.WinForms.csproj.CoreCompileInputs.cache
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\obj\Debug\net8.0-windows\AOI.GrabProgress.WinForms.sourcelink.json
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\obj\Debug\net8.0-windows\AOI.GrabProgressWinForms.dll
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\obj\Debug\net8.0-windows\refint\AOI.GrabProgressWinForms.dll
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\obj\Debug\net8.0-windows\AOI.GrabProgressWinForms.pdb
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\obj\Debug\net8.0-windows\AOI.GrabProgress.WinForms.genruntimeconfig.cache
+D:\Work\AOIPlatform\AOI.GrabProgress.WinForms\obj\Debug\net8.0-windows\ref\AOI.GrabProgressWinForms.dll

@@ -16,24 +16,29 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "UI.GatewayApi.Controllers.WeatherForecastController",
-    "Method": "Get",
-    "RelativePath": "WeatherForecast",
+    "ContainingType": "UI.GatewayApi.Controllers.GrabStatusController",
+    "Method": "GetBatches",
+    "RelativePath": "api/GrabStatus/batches",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": [
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UI.GatewayApi.Controllers.GrabStatusController",
+    "Method": "GetBatch",
+    "RelativePath": "api/GrabStatus/batches/{batchId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[UI.GatewayApi.WeatherForecast, UI.GatewayApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
+        "Name": "batchId",
+        "Type": "System.String",
+        "IsRequired": true
       }
     ],
-    "EndpointName": "GetWeatherForecast"
+    "ReturnTypes": []
   }
 ]

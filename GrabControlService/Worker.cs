@@ -11,6 +11,7 @@ namespace GrabControlService
         private readonly IMessageBus _bus;
         private readonly GrabControlOptions _opt;
 
+
         private readonly string _startPanelKey;
         private readonly string _imageCapturedKey;
 
@@ -136,6 +137,8 @@ namespace GrabControlService
                     "[GrabCtrl-{Group}] Side={Side} Frame={Frame} 完成 ({Completed}/{Expected})",
                     g, cap.Side, cap.PanelId, side.CompletedPanels, side.ExpectedPanelCount);
 
+                await PublishProgressAsync(ctx);
+
                 // 若還有下一張 Panel 要拍，對該面所有 Worker 下 CaptureOrder
                 if (side.CompletedPanels < side.ExpectedPanelCount)
                 {
@@ -186,6 +189,73 @@ namespace GrabControlService
                 await _bus.PublishAsync(order, key);
             }
         }
+
+        private async Task PublishProgressAsync(GrabPanelContext ctx)
+        {
+            var batchId = ctx.GrabPanel.PanelSideTop.LotName;
+            var g = _opt.GroupId;
+
+            var msg = new GrabProgressUpdated
+            {
+                BatchId = batchId.ToString(),
+                GroupId = g,
+
+                // --- Top ---
+                TopExpectedPanels = ctx.Top.ExpectedPanelCount,
+                TopCompletedPanels = ctx.Top.CompletedPanels,
+                TopCurrentPanelId = ctx.Top.CurrentPanelId,
+
+                TopPanelFirstSeen = ctx.Top.PanelFirstSeen.ToDictionary(
+                    kv => kv.Key,
+                    kv => (DateTimeOffset?)kv.Value
+                ),
+
+                TopPanelLastSeen = ctx.Top.WorkersReceived.ToDictionary(
+                    kv => kv.Key,
+                    kv => kv.Value.Count > 0
+                        ? (DateTimeOffset?)ctx.Top.PanelFirstSeen[kv.Key]
+                        : null
+                ),
+
+                TopStationLastPanel = new Dictionary<string, int>(ctx.Top.StationLastPanelIndex),
+                TopStationLastSeen = new Dictionary<string, DateTimeOffset>(ctx.Top.StationLastSeen),
+
+                // --- Bottom ---
+                BottomExpectedPanels = ctx.Bottom.ExpectedPanelCount,
+                BottomCompletedPanels = ctx.Bottom.CompletedPanels,
+                BottomCurrentPanelId = ctx.Bottom.CurrentPanelId,
+
+                BottomPanelFirstSeen = ctx.Bottom.PanelFirstSeen.ToDictionary(
+                    kv => kv.Key,
+                    kv => (DateTimeOffset?)kv.Value
+                ),
+
+                BottomPanelLastSeen = ctx.Bottom.WorkersReceived.ToDictionary(
+                    kv => kv.Key,
+                    kv => kv.Value.Count > 0
+                        ? (DateTimeOffset?)ctx.Bottom.PanelFirstSeen[kv.Key]
+                        : null
+                ),
+
+                BottomStationLastPanel = new Dictionary<string, int>(ctx.Bottom.StationLastPanelIndex),
+                BottomStationLastSeen = new Dictionary<string, DateTimeOffset>(ctx.Bottom.StationLastSeen),
+
+                Timestamp = DateTimeOffset.Now
+            };
+
+            string key = $"aoi.ui.{g}.grabprogress";
+
+            _logger.LogDebug(
+                "[GrabCtrl-{Group}] Publish Progress Batch={Batch}, Top={T}/{Te}, Btm={B}/{Be}",
+                g,
+                batchId,
+                msg.TopCompletedPanels, msg.TopExpectedPanels,
+                msg.BottomCompletedPanels, msg.BottomExpectedPanels
+            );
+
+            await _bus.PublishAsync(msg, key);
+        }
+
     }
 
     // ─────────────────────────────────────────────

@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Work\\AOIPlatform\\AOI.UI.Blazor\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\AOI.UI.Blazor.bundle.scp.css",
+      "PackagePath": "staticwebassets\\AOI.UI.Blazor.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\Work\\AOIPlatform\\AOI.UI.Blazor\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "D:\\Work\\AOIPlatform\\AOI.UI.Blazor\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\Work\\AOIPlatform\\AOI.UI.Blazor\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\Work\\AOIPlatform\\AOI.UI.Blazor\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.AOI.UI.Blazor.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.AOI.UI.Blazor.props",
+      "PackagePath": "build\\AOI.UI.Blazor.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.AOI.UI.Blazor.props",
+      "PackagePath": "buildMultiTargeting\\AOI.UI.Blazor.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.AOI.UI.Blazor.props",
+      "PackagePath": "buildTransitive\\AOI.UI.Blazor.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -2,6 +2,7 @@
 using AOI.Infrastructure.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using UI.GatewayApi.Dtos;
 
 namespace UI.GatewayApi.Controllers
 {
