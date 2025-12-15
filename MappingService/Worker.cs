@@ -25,10 +25,10 @@ namespace MappingService
             _subscribeKey = $"aoi.mapping.{_groupId}";
 
             _logger.LogInformation(
-                "[Mapping-{Group}] 訂閱 {Key}",
+                "[Mapping-{Group}] 訂閱 ###{Key}###",
                 _groupId, _subscribeKey);
 
-            _messageBus.SubscribeAsync<ImageCaptured>(_subscribeKey, HandleImageCapturedAsync);
+            _logger.LogInformation("Subscribed Type={TypeFullName}", typeof(ImageCaptured).FullName);
         }
 
         private async Task HandleImageCapturedAsync(ImageCaptured captured)
@@ -66,13 +66,19 @@ namespace MappingService
                 _groupId, routingKey);
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation(
-                "[Mapping-{Group}] MappingService 啟動完成，等待影像…",
-                _groupId);
+            _logger.LogInformation("[Mapping-{Group}] Worker 啟動中…", _subscribeKey);
 
-            return Task.CompletedTask;
+            // ★★★ 這是真的會成功建立 queue 的地方
+            await _messageBus.SubscribeAsync<ImageCaptured>(_subscribeKey, HandleImageCapturedAsync);
+
+            _logger.LogInformation("[Mapping-{Group}] 訂閱成功，正在等待影像…", _subscribeKey);
+
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(1000, stoppingToken);
+            }
         }
     }
 }

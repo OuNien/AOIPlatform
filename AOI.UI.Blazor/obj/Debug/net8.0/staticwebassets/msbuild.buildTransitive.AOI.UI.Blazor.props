@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\AOI.UI.Blazor.props" />
-</Project>

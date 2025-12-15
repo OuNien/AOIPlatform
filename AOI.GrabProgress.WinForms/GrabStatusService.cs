@@ -1,3 +1,4 @@
+using AOI.Common.Messages;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -36,7 +37,7 @@ namespace AOI.GrabProgressWinForms
             return result ?? new List<BatchInfo>();
         }
 
-        public async Task<GrabStatusResponse?> GetBatchStatusAsync(string batchId, CancellationToken cancellationToken = default)
+        public async Task<GrabProgressUpdated?> GetBatchStatusAsync(string batchId, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(batchId))
             {
@@ -47,7 +48,7 @@ namespace AOI.GrabProgressWinForms
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync(cancellationToken);
-            var result = JsonSerializer.Deserialize<GrabStatusResponse>(json, _jsonOptions);
+            var result = JsonSerializer.Deserialize<GrabProgressUpdated>(json, _jsonOptions);
 
             return result;
         }

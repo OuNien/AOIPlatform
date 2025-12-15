@@ -2,6 +2,11 @@
 using AOI.Infrastructure.Messaging;
 using Microsoft.Extensions.Options;
 using UI.GatewayApi.Dtos;
+using Microsoft.AspNetCore.SignalR;
+using UI.GatewayApi.Hubs;
+using System.Drawing;
+using System.Text.RegularExpressions;
+
 
 namespace UI.GatewayApi.Services
 {
@@ -15,17 +20,22 @@ namespace UI.GatewayApi.Services
         private readonly GrabProgressStore _store;
         private readonly int _groupId;
 
+        private readonly IHubContext<ProgressHub> _hub;
+
         public GrabProgressSubscriber(
             ILogger<GrabProgressSubscriber> logger,
             IMessageBus bus,
             GrabProgressStore store,
-            IOptions<UIOptions> opt)
+            IOptions<UIOptions> opt,
+            IHubContext<ProgressHub> hub)
         {
             _logger = logger;
             _bus = bus;
             _store = store;
+            _hub = hub;
             _groupId = opt.Value.GroupId;
         }
+
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -37,9 +47,12 @@ namespace UI.GatewayApi.Services
             return Task.CompletedTask;
         }
 
-        private Task HandleProgressAsync(GrabProgressUpdated msg)
+        private async Task HandleProgressAsync(GrabProgressUpdated msg)
         {
             _store.Upsert(msg);
+
+            // ★ 推給所有 UI 客戶端
+            await _hub.Clients.All.SendAsync("GrabProgressUpdated", msg);
 
             _logger.LogInformation(
                 "Progress updated: Batch={Batch}, Top {Top}/{TopExp}, Bottom {Btm}/{BtmExp}",
@@ -48,7 +61,26 @@ namespace UI.GatewayApi.Services
                 msg.BottomCompletedPanels, msg.BottomExpectedPanels
             );
 
-            return Task.CompletedTask;
+            string key =$"aoi.mapping.{_groupId}";
+
+            var mapped = new ImageCaptured
+            {
+                PanelId = msg.TopCurrentPanelId,
+                Side = "Top",
+                StationId = "1",
+                CapturedAt = DateTimeOffset.Now
+            };
+
+            _logger.LogInformation("Type={TypeFullName}", mapped.GetType().FullName);
+
+
+            _logger.LogInformation(
+                "{time} GrabDone Push {panelid} To Mapping Station ###{key}###",
+                DateTime.Now, msg.TopCurrentPanelId, key);
+            await _bus.PublishAsync(mapped, key);
+
+
         }
+
     }
 }

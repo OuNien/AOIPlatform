@@ -1,7 +1,8 @@
+using AOI.Common.Messages;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -11,28 +12,24 @@ namespace AOI.GrabProgressWinForms
     {
         private readonly GrabStatusService _service;
         private readonly BindingList<GrabWorkerStatus> _workers = new();
-        private readonly System.Windows.Forms.Timer _timer;
-        private bool _isRefreshing;
+        private HubConnection? _hub;
+        private string? _selectedBatch;
 
         public MainForm()
         {
             InitializeComponent();
 
-            // TODO: 如有需要，改成實際的 API URL
             _service = new GrabStatusService("https://localhost:7117");
 
             dgvWorkers.AutoGenerateColumns = false;
             dgvWorkers.DataSource = _workers;
-
-            _timer = new System.Windows.Forms.Timer();
-            _timer.Interval = 1000; // 建議值：1000 ms
-            _timer.Tick += async (s, e) => await RefreshStatusAsync();
         }
 
         private async void MainForm_Load(object sender, EventArgs e)
         {
             await LoadBatchesAsync();
-            _timer.Start();
+            await SetupSignalRAsync();
+            await RefreshOnceByApiAsync();   // 初次載入一次
         }
 
         private async Task LoadBatchesAsync()
@@ -40,23 +37,15 @@ namespace AOI.GrabProgressWinForms
             try
             {
                 Cursor = Cursors.WaitCursor;
-                var batches = await _service.GetBatchesAsync();
 
+                var batches = await _service.GetBatchesAsync();
                 cmbBatch.Items.Clear();
+
                 foreach (var b in batches)
-                {
                     cmbBatch.Items.Add(b.BatchId);
-                }
 
                 if (cmbBatch.Items.Count > 0)
-                {
                     cmbBatch.SelectedIndex = 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"載入批號失敗: {ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -64,39 +53,37 @@ namespace AOI.GrabProgressWinForms
             }
         }
 
-        private async Task RefreshStatusAsync()
+        private async Task SetupSignalRAsync()
         {
-            if (_isRefreshing)
-                return;
+            _hub = new HubConnectionBuilder()
+                .WithUrl("https://localhost:7117/hub/progress")
+                .WithAutomaticReconnect()
+                .Build();
 
-            var batchId = cmbBatch.SelectedItem as string;
-            if (string.IsNullOrWhiteSpace(batchId))
-                return;
-
-            try
+            _hub.On<GrabProgressUpdated>("GrabProgressUpdated", (status) =>
             {
-                _isRefreshing = true;
-                var status = await _service.GetBatchStatusAsync(batchId);
+                // 非 UI 執行緒 → Invoke 回 UI
+                Invoke(new Action(() =>
+                {
+                    if (_selectedBatch == null)
+                        return;
 
-                if (status == null)
-                    return;
+                    if (!string.Equals(status.BatchId, _selectedBatch, StringComparison.OrdinalIgnoreCase))
+                        return;
 
-                BuildWorkers(status);
-                UpdateProgress(status);
-                UpdateWorkers(status);
-            }
-            catch (Exception ex)
-            {
-                // 可以視需要暫時關掉 timer 或只在第一次錯誤時顯示
-                Console.WriteLine($"Refresh error: {ex}");
-            }
-            finally
-            {
-                _isRefreshing = false;
-            }
+                    ApplyProgress(status);
+                }));
+            });
+
+            await _hub.StartAsync();
         }
 
-        private void UpdateProgress(GrabStatusResponse status)
+        private void ApplyProgress(GrabProgressUpdated status)
+        {
+            UpdateProgress(status);
+        }
+
+        private void UpdateProgress(GrabProgressUpdated status)
         {
             lblTopCount.Text = $"Top: {status.TopCompletedPanels}/{status.TopExpectedPanels}";
             lblBottomCount.Text = $"Bottom: {status.BottomCompletedPanels}/{status.BottomExpectedPanels}";
@@ -108,64 +95,20 @@ namespace AOI.GrabProgressWinForms
             progressBottom.Value = Math.Min(progressBottom.Maximum, status.BottomCompletedPanels);
         }
 
-        private void UpdateWorkers(GrabStatusResponse status)
+        private async void cmbBatch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _workers.RaiseListChangedEvents = false;
-            _workers.Clear();
-            
-            foreach (var w in status.Workers.OrderBy(w => w.Name))
-            {
-                _workers.Add(w);
-            }
-            _workers.RaiseListChangedEvents = true;
-            _workers.ResetBindings();
+            _selectedBatch = cmbBatch.SelectedItem as string;
+            await RefreshOnceByApiAsync();
         }
 
-        private void BuildWorkers(GrabStatusResponse status)
+        private async Task RefreshOnceByApiAsync()
         {
-            status.Workers.Clear();
+            if (_selectedBatch == null) return;
 
-            // Top Workers
-            if (status.TopStationLastPanel != null)
-            {
-                foreach (var kv in status.TopStationLastPanel)
-                {
-                    var name = kv.Key;
-                    var lastPanel = kv.Value;
-
-                    status.TopStationLastSeen?.TryGetValue(name, out string? seen);
-
-                    status.Workers.Add(new GrabWorkerStatus
-                    {
-                        Name = name,
-                        Side = "Top",
-                        Status = "Done",
-                        Frames = lastPanel,
-                    });
-                }
-            }
-
-            // Bottom Workers
-            if (status.BottomStationLastPanel != null)
-            {
-                foreach (var kv in status.BottomStationLastPanel)
-                {
-                    var name = kv.Key;
-                    var lastPanel = kv.Value;
-
-                    status.BottomStationLastSeen?.TryGetValue(name, out string? seen);
-
-                    status.Workers.Add(new GrabWorkerStatus
-                    {
-                        Name = name,
-                        Side = "Bottom",
-                        Status = "Done",
-                        Frames = lastPanel,
-                    });
-                }
-            }
+            var status = await _service.GetBatchStatusAsync(_selectedBatch);
+            if (status != null)
+                ApplyProgress(status);
         }
-
 
         private async void btnRefreshBatches_Click(object sender, EventArgs e)
         {

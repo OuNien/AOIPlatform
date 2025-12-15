@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AOI.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2f35af952e802256f945e6bba8219ff51243a2ac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+132881d18c951cb2e203de475ebc654de7f087aa")]
 [assembly: System.Reflection.AssemblyProductAttribute("AOI.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AOI.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

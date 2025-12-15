@@ -35,7 +35,8 @@ namespace AOI.Infrastructure.Messaging
             _channel.ExchangeDeclare(
                 exchange: _exchange,
                 type: ExchangeType.Direct,
-                durable: true
+                durable: true,
+                autoDelete: false
             );
 
             // Publish Confirm（設備等級必須）

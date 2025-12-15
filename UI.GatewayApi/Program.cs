@@ -1,8 +1,8 @@
 using AOI.Infrastructure.Messaging;
-using AOIPlatform.Hubs;
 using Microsoft.Extensions.Options;
 using UI.GatewayApi;
 using UI.GatewayApi.Dtos;
+using UI.GatewayApi.Hubs;
 using UI.GatewayApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,7 +32,8 @@ builder.Services.AddSignalR();
 
 var app = builder.Build();
 
-app.MapHub<GrabStatusHub>("/grabStatusHub"); // µù¥U Hub Endpoint
+app.MapHub<ProgressHub>("/hub/progress");
+
 
 // Swagger
 if (app.Environment.IsDevelopment())

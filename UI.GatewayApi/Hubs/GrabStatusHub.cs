@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace AOIPlatform.Hubs
+namespace UI.GatewayApi.Hubs
 {
-    public class GrabStatusHub : Hub
+    public class ProgressHub : Hub
     {
-        // 不需要額外實作，Hub 只要存在即可被Broadcast
     }
 }

@@ -16,24 +16,4 @@ namespace AOI.GrabProgressWinForms
         public int Frames { get; set; }
     }
 
-    public class GrabStatusResponse
-    {
-        public string BatchId { get; set; } = "";
-
-        public int TopExpectedPanels { get; set; }
-        public int TopCompletedPanels { get; set; }
-
-        public int BottomExpectedPanels { get; set; }
-        public int BottomCompletedPanels { get; set; }
-
-        public Dictionary<string, int>? TopStationLastPanel { get; set; }
-        public Dictionary<string, string>? TopStationLastSeen { get; set; }
-
-        public Dictionary<string, int>? BottomStationLastPanel { get; set; }
-        public Dictionary<string, string>? BottomStationLastSeen { get; set; }
-
-        // 前端自行產生的 Workers 清單
-        public List<GrabWorkerStatus> Workers { get; set; } = new();
-    }
-
 }

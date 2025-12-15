@@ -28,187 +28,167 @@ namespace AOI.GrabProgressWinForms
 
         private void InitializeComponent()
         {
-            this.cmbBatch = new ComboBox();
-            this.btnRefreshBatches = new Button();
-            this.lblBatchLabel = new Label();
-            this.grpTop = new GroupBox();
-            this.progressTop = new ProgressBar();
-            this.lblTopCount = new Label();
-            this.grpBottom = new GroupBox();
-            this.progressBottom = new ProgressBar();
-            this.lblBottomCount = new Label();
-            this.dgvWorkers = new DataGridView();
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvWorkers)).BeginInit();
-            this.grpTop.SuspendLayout();
-            this.grpBottom.SuspendLayout();
-            this.SuspendLayout();
-
-            // 
-            // lblBatchLabel
-            // 
-            this.lblBatchLabel.AutoSize = true;
-            this.lblBatchLabel.Location = new System.Drawing.Point(20, 20);
-            this.lblBatchLabel.Name = "lblBatchLabel";
-            this.lblBatchLabel.Size = new System.Drawing.Size(56, 15);
-            this.lblBatchLabel.TabIndex = 0;
-            this.lblBatchLabel.Text = "批號 (Lot)";
-
+            cmbBatch = new ComboBox();
+            btnRefreshBatches = new Button();
+            lblBatchLabel = new Label();
+            grpTop = new GroupBox();
+            progressTop = new ProgressBar();
+            lblTopCount = new Label();
+            grpBottom = new GroupBox();
+            progressBottom = new ProgressBar();
+            lblBottomCount = new Label();
+            dgvWorkers = new DataGridView();
+            colName = new DataGridViewTextBoxColumn();
+            colSide = new DataGridViewTextBoxColumn();
+            colStatus = new DataGridViewTextBoxColumn();
+            colFrames = new DataGridViewTextBoxColumn();
+            grpTop.SuspendLayout();
+            grpBottom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvWorkers).BeginInit();
+            SuspendLayout();
             // 
             // cmbBatch
             // 
-            this.cmbBatch.DropDownStyle = ComboBoxStyle.DropDownList;
-            this.cmbBatch.FormattingEnabled = true;
-            this.cmbBatch.Location = new System.Drawing.Point(90, 16);
-            this.cmbBatch.Name = "cmbBatch";
-            this.cmbBatch.Size = new System.Drawing.Size(200, 23);
-            this.cmbBatch.TabIndex = 1;
-
+            cmbBatch.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbBatch.FormattingEnabled = true;
+            cmbBatch.Location = new System.Drawing.Point(90, 16);
+            cmbBatch.Name = "cmbBatch";
+            cmbBatch.Size = new System.Drawing.Size(200, 23);
+            cmbBatch.TabIndex = 1;
+            cmbBatch.SelectedIndexChanged += cmbBatch_SelectedIndexChanged;
             // 
             // btnRefreshBatches
             // 
-            this.btnRefreshBatches.Location = new System.Drawing.Point(310, 15);
-            this.btnRefreshBatches.Name = "btnRefreshBatches";
-            this.btnRefreshBatches.Size = new System.Drawing.Size(90, 25);
-            this.btnRefreshBatches.TabIndex = 2;
-            this.btnRefreshBatches.Text = "更新批號";
-            this.btnRefreshBatches.UseVisualStyleBackColor = true;
-            this.btnRefreshBatches.Click += new System.EventHandler(this.btnRefreshBatches_Click);
-
+            btnRefreshBatches.Location = new System.Drawing.Point(310, 15);
+            btnRefreshBatches.Name = "btnRefreshBatches";
+            btnRefreshBatches.Size = new System.Drawing.Size(90, 25);
+            btnRefreshBatches.TabIndex = 2;
+            btnRefreshBatches.Text = "更新批號";
+            btnRefreshBatches.UseVisualStyleBackColor = true;
+            btnRefreshBatches.Click += btnRefreshBatches_Click;
+            // 
+            // lblBatchLabel
+            // 
+            lblBatchLabel.AutoSize = true;
+            lblBatchLabel.Location = new System.Drawing.Point(20, 20);
+            lblBatchLabel.Name = "lblBatchLabel";
+            lblBatchLabel.Size = new System.Drawing.Size(60, 15);
+            lblBatchLabel.TabIndex = 0;
+            lblBatchLabel.Text = "批號 (Lot)";
             // 
             // grpTop
             // 
-            this.grpTop.Controls.Add(this.progressTop);
-            this.grpTop.Controls.Add(this.lblTopCount);
-            this.grpTop.Location = new System.Drawing.Point(20, 55);
-            this.grpTop.Name = "grpTop";
-            this.grpTop.Size = new System.Drawing.Size(380, 70);
-            this.grpTop.TabIndex = 3;
-            this.grpTop.TabStop = false;
-            this.grpTop.Text = "Top 面進度";
-
+            grpTop.Controls.Add(progressTop);
+            grpTop.Controls.Add(lblTopCount);
+            grpTop.Location = new System.Drawing.Point(20, 55);
+            grpTop.Name = "grpTop";
+            grpTop.Size = new System.Drawing.Size(380, 70);
+            grpTop.TabIndex = 3;
+            grpTop.TabStop = false;
+            grpTop.Text = "Top 面進度";
             // 
             // progressTop
             // 
-            this.progressTop.Location = new System.Drawing.Point(15, 30);
-            this.progressTop.Name = "progressTop";
-            this.progressTop.Size = new System.Drawing.Size(260, 23);
-            this.progressTop.TabIndex = 0;
-
+            progressTop.Location = new System.Drawing.Point(15, 30);
+            progressTop.Name = "progressTop";
+            progressTop.Size = new System.Drawing.Size(260, 23);
+            progressTop.TabIndex = 0;
             // 
             // lblTopCount
             // 
-            this.lblTopCount.AutoSize = true;
-            this.lblTopCount.Location = new System.Drawing.Point(285, 34);
-            this.lblTopCount.Name = "lblTopCount";
-            this.lblTopCount.Size = new System.Drawing.Size(60, 15);
-            this.lblTopCount.TabIndex = 1;
-            this.lblTopCount.Text = "Top: 0/0";
-
+            lblTopCount.AutoSize = true;
+            lblTopCount.Location = new System.Drawing.Point(285, 34);
+            lblTopCount.Name = "lblTopCount";
+            lblTopCount.Size = new System.Drawing.Size(55, 15);
+            lblTopCount.TabIndex = 1;
+            lblTopCount.Text = "Top: 0/0";
             // 
             // grpBottom
             // 
-            this.grpBottom.Controls.Add(this.progressBottom);
-            this.grpBottom.Controls.Add(this.lblBottomCount);
-            this.grpBottom.Location = new System.Drawing.Point(20, 135);
-            this.grpBottom.Name = "grpBottom";
-            this.grpBottom.Size = new System.Drawing.Size(380, 70);
-            this.grpBottom.TabIndex = 4;
-            this.grpBottom.TabStop = false;
-            this.grpBottom.Text = "Bottom 面進度";
-
+            grpBottom.Controls.Add(progressBottom);
+            grpBottom.Controls.Add(lblBottomCount);
+            grpBottom.Location = new System.Drawing.Point(20, 135);
+            grpBottom.Name = "grpBottom";
+            grpBottom.Size = new System.Drawing.Size(380, 70);
+            grpBottom.TabIndex = 4;
+            grpBottom.TabStop = false;
+            grpBottom.Text = "Bottom 面進度";
             // 
             // progressBottom
             // 
-            this.progressBottom.Location = new System.Drawing.Point(15, 30);
-            this.progressBottom.Name = "progressBottom";
-            this.progressBottom.Size = new System.Drawing.Size(260, 23);
-            this.progressBottom.TabIndex = 0;
-
+            progressBottom.Location = new System.Drawing.Point(15, 30);
+            progressBottom.Name = "progressBottom";
+            progressBottom.Size = new System.Drawing.Size(260, 23);
+            progressBottom.TabIndex = 0;
             // 
             // lblBottomCount
             // 
-            this.lblBottomCount.AutoSize = true;
-            this.lblBottomCount.Location = new System.Drawing.Point(285, 34);
-            this.lblBottomCount.Name = "lblBottomCount";
-            this.lblBottomCount.Size = new System.Drawing.Size(80, 15);
-            this.lblBottomCount.TabIndex = 1;
-            this.lblBottomCount.Text = "Bottom: 0/0";
-
+            lblBottomCount.AutoSize = true;
+            lblBottomCount.Location = new System.Drawing.Point(285, 34);
+            lblBottomCount.Name = "lblBottomCount";
+            lblBottomCount.Size = new System.Drawing.Size(74, 15);
+            lblBottomCount.TabIndex = 1;
+            lblBottomCount.Text = "Bottom: 0/0";
             // 
             // dgvWorkers
             // 
-            this.dgvWorkers.AllowUserToAddRows = false;
-            this.dgvWorkers.AllowUserToDeleteRows = false;
-            this.dgvWorkers.Anchor = ((AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Bottom) 
-                                    | AnchorStyles.Left) 
-                                    | AnchorStyles.Right));
-            this.dgvWorkers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvWorkers.Location = new System.Drawing.Point(20, 220);
-            this.dgvWorkers.Name = "dgvWorkers";
-            this.dgvWorkers.ReadOnly = true;
-            this.dgvWorkers.RowTemplate.Height = 25;
-            this.dgvWorkers.Size = new System.Drawing.Size(560, 220);
-            this.dgvWorkers.TabIndex = 5;
-
-            // 設定欄位
-            var colName = new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Worker",
-                DataPropertyName = "Name",
-                Name = "colName",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-            };
-            var colSide = new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Side",
-                DataPropertyName = "Side",
-                Name = "colSide",
-                Width = 80
-            };
-            var colStatus = new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Status",
-                DataPropertyName = "Status",
-                Name = "colStatus",
-                Width = 120
-            };
-            var colFrames = new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Frames",
-                DataPropertyName = "Frames",
-                Name = "colFrames",
-                Width = 80
-            };
-
-            this.dgvWorkers.Columns.AddRange(new DataGridViewColumn[]
-            {
-                colName, colSide, colStatus, colFrames
-            });
-
+            dgvWorkers.AllowUserToAddRows = false;
+            dgvWorkers.AllowUserToDeleteRows = false;
+            dgvWorkers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvWorkers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvWorkers.Columns.AddRange(new DataGridViewColumn[] { colName, colSide, colStatus, colFrames });
+            dgvWorkers.Location = new System.Drawing.Point(20, 220);
+            dgvWorkers.Name = "dgvWorkers";
+            dgvWorkers.ReadOnly = true;
+            dgvWorkers.Size = new System.Drawing.Size(560, 220);
+            dgvWorkers.TabIndex = 5;
+            // 
+            // colName
+            // 
+            colName.Name = "colName";
+            colName.ReadOnly = true;
+            // 
+            // colSide
+            // 
+            colSide.Name = "colSide";
+            colSide.ReadOnly = true;
+            // 
+            // colStatus
+            // 
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
+            // 
+            // colFrames
+            // 
+            colFrames.Name = "colFrames";
+            colFrames.ReadOnly = true;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 460);
-            this.Controls.Add(this.dgvWorkers);
-            this.Controls.Add(this.grpBottom);
-            this.Controls.Add(this.grpTop);
-            this.Controls.Add(this.btnRefreshBatches);
-            this.Controls.Add(this.cmbBatch);
-            this.Controls.Add(this.lblBatchLabel);
-            this.Name = "MainForm";
-            this.Text = "Grab Progress Monitor (WinForms)";
-            this.Load += new System.EventHandler(this.MainForm_Load);
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvWorkers)).EndInit();
-            this.grpTop.ResumeLayout(false);
-            this.grpTop.PerformLayout();
-            this.grpBottom.ResumeLayout(false);
-            this.grpBottom.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(600, 460);
+            Controls.Add(dgvWorkers);
+            Controls.Add(grpBottom);
+            Controls.Add(grpTop);
+            Controls.Add(btnRefreshBatches);
+            Controls.Add(cmbBatch);
+            Controls.Add(lblBatchLabel);
+            Name = "MainForm";
+            Text = "Grab Progress Monitor (WinForms)";
+            Load += MainForm_Load;
+            grpTop.ResumeLayout(false);
+            grpTop.PerformLayout();
+            grpBottom.ResumeLayout(false);
+            grpBottom.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvWorkers).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
+
+        private DataGridViewTextBoxColumn colName;
+        private DataGridViewTextBoxColumn colSide;
+        private DataGridViewTextBoxColumn colStatus;
+        private DataGridViewTextBoxColumn colFrames;
     }
 }

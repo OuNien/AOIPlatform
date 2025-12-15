@@ -183,8 +183,8 @@ namespace GrabControlService
             {
                 var key = $"aoi.grabworker.{g}.{sideName.ToLower()}.{i}.order";
                 _logger.LogInformation(
-                    "[GrabCtrl-{Group}] Send CaptureOrder Panel={Panel}, Side={Side} ¡÷ {Key}",
-                    g, side.CurrentPanelId, sideName, key);
+                    "[GrabCtrl-{Group}] {time} Send CaptureOrder Panel={Panel}, Side={Side} ¡÷ {Key}",
+                    g, DateTime.Now, side.CurrentPanelId, sideName, key);
 
                 await _bus.PublishAsync(order, key);
             }
